@@ -1,0 +1,17 @@
+# Render.com deploy config (FREE tier — koi card nahi chahiye)
+# Database: Turso (free cloud SQLite) — neeche TURSO_URL aur TURSO_AUTH_TOKEN
+# Render dashboard → Environment mein set karein (turso.com se free mein milte hain).
+services:
+  - type: web
+    name: smart-print-token-system
+    runtime: node
+    buildCommand: "npm install"
+    startCommand: "node server.js"
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: TURSO_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false

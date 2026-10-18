@@ -1,0 +1,1 @@
+{"dependencies":{"@libsql/client":"^0.15.0"},"description":"Smart Printing Shop Token & Order Management System — customer booking, pricing engine, token queue, admin dashboard. DB: local SQLite file ya Turso cloud (TURSO_URL + TURSO_AUTH_TOKEN).","engines":{"node":">=22.5"},"name":"smart-print-token-system","scripts":{"start":"node server.js"},"type":"module","version":"1.1.0"}
