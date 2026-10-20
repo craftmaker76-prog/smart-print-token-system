@@ -729,6 +729,14 @@ function serveStatic(req, res) {
 
 const handler = async (req, res) => {
   try {
+    // Vercel: catch-all rewrite function ko destination URL deta hai, is liye asal path __path query se wapas lete hain.
+    const rawUrl = new URL(req.url, 'http://x');
+    const origPath = rawUrl.searchParams.get('__path');
+    if (origPath) {
+      rawUrl.searchParams.delete('__path');
+      const qs = rawUrl.searchParams.toString();
+      req.url = (origPath.startsWith('/') ? origPath : '/' + origPath) + (qs ? '?' + qs : '');
+    }
     const url = new URL(req.url, 'http://x');
     for (const r of routes) {
       if (r.method !== req.method) continue;
