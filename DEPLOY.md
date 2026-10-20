@@ -87,3 +87,11 @@ Ye link computer band hone par khatam. Mustaqil domain ke liye Cloudflare Zero T
 - [ ] Dev OTP mode OFF + asal SMS provider (production ke liye)
 - [ ] HTTPS on hai (tareeqa 1 mein certbot se)
 - [ ] Roz backup ka intezam
+
+## Vercel (free, card ki zaroorat NAHI — recommended 2026-10-19)
+Note: Render ab naye accounts se card maangta hai, aur Koyeb ka free plan Mistral acquisition ke baad khatam ho gaya — is liye Vercel istemal karein.
+1. GitHub repo mein updated files upload karein (api/ folder aur vercel.json lazmi).
+2. vercel.com → Sign Up (GitHub) → "Add New" → "Project" → repo `smart-print-token-system` Import karein.
+3. Environment Variables mein `TURSO_URL` aur `TURSO_AUTH_TOKEN` add karein.
+4. Deploy → link milega: https://<project>.vercel.app/book
+Had: Vercel par file upload max ~4.5MB hai.

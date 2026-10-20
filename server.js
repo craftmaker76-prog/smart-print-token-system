@@ -3,7 +3,7 @@
 // Cloud:  TURSO_URL + TURSO_AUTH_TOKEN env → Turso (Render/production)
 import http from 'node:http';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { q, q1, run, getSetting, setSetting, verifyPassword, hashPasswordNew, allocTokenNo, randomBytes, isCloud } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -727,7 +727,7 @@ function serveStatic(req, res) {
 
 /* ============================== server ============================== */
 
-const server = http.createServer(async (req, res) => {
+const handler = async (req, res) => {
   try {
     const url = new URL(req.url, 'http://x');
     for (const r of routes) {
@@ -743,8 +743,13 @@ const server = http.createServer(async (req, res) => {
     console.error('ERR', e);
     if (!res.headersSent) bad(res, 'Server mein masla hua. Dobara koshish karein.', 500);
   }
-});
+};
 
-server.listen(PORT, () => {
-  console.log(`Smart Print Token System chal raha hai (${isCloud ? 'Turso cloud DB' : 'local DB'}): http://localhost:${PORT}/book`);
-});
+export default handler;
+
+/* Direct run (local / VPS): node server.js — Vercel par ye hissa skip hota hai, wahan upar wala handler export use hota hai. */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  http.createServer(handler).listen(PORT, () => {
+    console.log(`Smart Print Token System chal raha hai (${isCloud ? 'Turso cloud DB' : 'local DB'}): http://localhost:${PORT}/book`);
+  });
+}
