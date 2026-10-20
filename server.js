@@ -3,12 +3,19 @@
 // Cloud:  TURSO_URL + TURSO_AUTH_TOKEN env → Turso (Render/production)
 import http from 'node:http';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { q, q1, run, getSetting, setSetting, verifyPassword, hashPasswordNew, allocTokenNo, randomBytes, isCloud } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const PUBLIC_DIR = path.join(__dirname, 'public');
+// public/ ka rasta har mahol mein khud dhoondo (local, VPS, Vercel bundle — jahan mile).
+const PUBLIC_CANDIDATES = [
+  path.join(__dirname, 'public'),
+  path.join(__dirname, '..', 'public'),
+  path.join(process.cwd(), 'public'),
+];
+const PUBLIC_DIR = PUBLIC_CANDIDATES.find((d) => existsSync(path.join(d, 'book.html'))) || PUBLIC_CANDIDATES[0];
 
 /* ============================== helpers ============================== */
 
